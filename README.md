@@ -43,7 +43,7 @@ chmod +x LazyRecon.sh
 
 ## Contribute
 
-If you have any problem or an idea, feel free to create an issue, oe pull a request.
+If you have any problems or ideas, feel free to create an issue, or pull a request.
 
 
 ## Disclaimer
