@@ -2,7 +2,7 @@
 [![Version](https://img.shields.io/badge/Version-v1.0-green.svg)]()
 [![License](https://img.shields.io/badge/License-MIT-red.svg)](https://github.com/capt-meelo/LazyRecon/blob/master/LICENSE)
 
-LazyRecon is a wrapper for various scripts that can automate the tedious process of reconnaissance of a target domain. 
+LazyRecon is a wrapper of various scripts that automates the tedious process of reconnaissance of a target domain. 
 
 LazyRecon utilizes the following tools:
 - Subdomain Enumeration:
@@ -26,7 +26,7 @@ LazyRecon utilizes the following tools:
 
 
 ## Installation
-:warning: _**NOTE:** Before executing `install.sh`, modify first the `subEnumTools()` function by placing your API keys for Virustotal, Passivetotal, SecurityTrails, Censys, Riddler, and Shodan. This will give more results during the subdomain enumeration._
+:warning: _**NOTE:** Before executing `install.sh`, modify the `subEnumTools()` function by placing your Virustotal, Passivetotal, SecurityTrails, Censys, Riddler, and Shodan API keys. This will give better results during the subdomain enumeration._
 ```
 git clone https://github.com/capt-meelo/LazyRecon.git
 cd LazyRecon
@@ -43,10 +43,10 @@ chmod +x LazyRecon.sh
 
 ## Contribute
 
-If you have any problems or ideas, feel free to create an issue, or pull a request.
+If you have any problem or new idea, feel free to create an issue, or pull a request.
 
 
 ## Disclaimer
-All of the tools being used by LazyRecon are developed by others. I just put all the pieces together and automate the boring stuff.
+All of the tools being used by LazyRecon are developed by others. I just put all the pieces together to automate the redundant jobs.
 
-This tool is written for educational purposes only. You are responsible for your own actions. If you mess something up or break any laws while using this software, it's your fault, and your fault only.
+This tool is written for educational purposes only. You are responsible for your own actions. If you mess something up or break any law while using this tool, it's your fault, and your fault only.
