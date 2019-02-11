@@ -24,7 +24,7 @@ LazyRecon utilizes the following tools:
 Thanks to the developers of these tools!
 
 ## Workflow
-![Flow](LazyRecon.png)
+![Flow](workflow.png)
 
 
 ## Installation
