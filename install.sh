@@ -37,7 +37,7 @@ setupTools(){
     installBanner "setup tools"
     sudo add-apt-repository ppa:canonical-chromium-builds/stage -y
     sudo apt update
-    sudo apt-get install -y golang git python python-pip python3 python3-pip libldns-dev gcc make libpcap-dev curl xsltproc chromium-browser
+    sudo apt-get install -y golang git python python-pip python3 python3-pip libldns-dev gcc make libpcap-dev curl xsltproc chromium chromium-browser
 }
 
 
