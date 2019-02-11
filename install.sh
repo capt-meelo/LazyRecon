@@ -8,12 +8,10 @@ GREEN="\033[1;32m"
 BLUE="\033[1;36m"
 RESET="\033[0m"
 
-
 installBanner(){
 	name=$1
 	echo -e "${RED}[+] Installing $name...${RESET}"
 }
-
 
 update(){
 	echo -e "${GREEN}\n--==[ Setting things up ]==--${RESET}"
@@ -24,7 +22,6 @@ update(){
 	sudo apt clean
 }
 
-
 createDir(){
 	echo -e "${RED}[+] Creating directories...${RESET}"
 	mkdir -p $TOOLS_PATH $WORDLIST_PATH
@@ -32,14 +29,12 @@ createDir(){
 	echo -e "${BLUE}[*] $WORDLIST_PATH\n${RESET}"
 }
 
-
 setupTools(){
 	installBanner "setup tools"
 	sudo add-apt-repository ppa:canonical-chromium-builds/stage -y
 	sudo apt update
 	sudo apt-get install -y golang git python python-pip python3 python3-pip libldns-dev gcc make libpcap-dev curl xsltproc chromium-browser
 }
-
 
 subEnumTools(){
 	echo -e "${GREEN}\n--==[ Installing subdomains enum tools ]==--${RESET}"
@@ -68,7 +63,6 @@ subEnumTools(){
 	go get -u -v github.com/haccer/subjack
 }
 
-
 ipEnumTools(){ 
 	echo -e "${GREEN}\n--==[ Installing IP enum tools ]==--${RESET}"
 	installBanner "IPOsint"
@@ -90,7 +84,6 @@ ipEnumTools(){
 	cd $WORKING_DIR
 }
 
-
 portScanTools(){
 	echo -e "${GREEN}\n--==[ Installing port scanners ]==--${RESET}"
 	installBanner "masscan"
@@ -101,13 +94,11 @@ portScanTools(){
 	cd $WORKING_DIR
 }
 
-
 visualReconTools(){
 	echo -e "${GREEN}\n--==[ Installing visual recon tools ]==--${RESET}"
 	installBanner "aquatone"
 	go get -u -v github.com/michenriksen/aquatone
 }
-
 
 dirBruteTools(){
 	echo -e "${GREEN}\n--==[ Installing content discovery tools ]==--${RESET}"
@@ -120,7 +111,6 @@ dirBruteTools(){
 	cd $WORKING_DIR
 }
 
-
 otherTools(){
 	echo -e "${GREEN}\n--==[ Downloading wordlists & other tools]==--${RESET}"
 	echo -e "${RED}[+] Donwloading jhaddix's all.txt, content_discovery_all.txt & raft-large-words.txt...${RESET}"
@@ -131,7 +121,7 @@ otherTools(){
 	wget -O $TOOLS_PATH/nmap-bootstrap.xsl https://github.com/honze-net/nmap-bootstrap-xsl/raw/master/nmap-bootstrap.xsl
 }
 
-
+# Main function
 update
 createDir
 setupTools
