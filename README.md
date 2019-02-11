@@ -5,19 +5,19 @@
 LazyRecon is a wrapper for various scripts that can automate the tedious process of reconnaissance of a target domain. 
 
 LazyRecon utilizes the following tools:
-- Subdomain Enumeration Tools:
+- Subdomain Enumeration:
   - [Amass](https://github.com/OWASP/Amass)
   - [Subfinder](https://github.com/subfinder/subfinder)
   - [Massdns](https://github.com/blechschmidt/massdns)
   - [subjack](https://github.com/haccer/subjack)
-- IP Discovery Tools:
+- IP Discovery:
   - [Massdns](https://github.com/blechschmidt/massdns)
   - [IPOsint](https://github.com/j3ssie/IPOsint)
 - Port Scanner:
   - [Masscan](https://github.com/robertdavidgraham/masscan)
-- Visual Recon Tools:
+- Visual Recon:
   - [Aquatone](https://github.com/michenriksen/aquatone)
-- Content Discovery Tools:
+- Content Discovery:
   - [Gobuster](https://github.com/OJ/gobuster)
   - [Dirsearch](https://github.com/maurosoria/dirsearch)
 
