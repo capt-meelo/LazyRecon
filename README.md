@@ -21,6 +21,8 @@ LazyRecon utilizes the following tools:
   - [Gobuster](https://github.com/OJ/gobuster)
   - [Dirsearch](https://github.com/maurosoria/dirsearch)
 
+Thanks to the developers of these tools!
+
 ## Workflow
 ![Flow](LazyRecon.png)
 
