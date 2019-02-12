@@ -15,11 +15,17 @@ LazyRecon utilizes the following tools:
   - [IPOsint](https://github.com/j3ssie/IPOsint)
 - Port Scanner:
   - [Masscan](https://github.com/robertdavidgraham/masscan)
+  - [Nmap Bootstrap Stylesheet](https://github.com/honze-net/nmap-bootstrap-xsl/)
 - Visual Recon:
   - [Aquatone](https://github.com/michenriksen/aquatone)
 - Content Discovery:
   - [Gobuster](https://github.com/OJ/gobuster)
   - [Dirsearch](https://github.com/maurosoria/dirsearch)
+- Wordlists:
+  - [JHaddix's all.txt](https://gist.github.com/jhaddix/f64c97d0863a78454e44c2f7119c2a6a)
+  - [JHaddix's content_discovery_all.txt](https://gist.github.com/jhaddix/b80ea67d85c13206125806f0828f4d10)
+  - [SecLists' raft-large-words.txt](https://github.com/danielmiessler/SecLists/blob/master/Discovery/Web-Content/raft-large-words.txt)
+  
 
 Thanks to the developers of these tools!
 
