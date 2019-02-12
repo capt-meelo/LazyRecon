@@ -28,7 +28,7 @@ Thanks to the developers of these tools!
 
 
 ## Installation
-:warning: _**NOTE:** Before executing `install.sh`, modify the `subEnumTools()` function by placing your Virustotal, Passivetotal, SecurityTrails, Censys, Riddler, and Shodan API keys. This will give better results during the subdomain enumeration._
+:warning: **NOTE:** Before executing `install.sh`, modify the `subEnumTools()` function by placing your Virustotal, Passivetotal, SecurityTrails, Censys, Riddler, and Shodan API keys. This will give better results during the subdomain enumeration.
 ```
 git clone https://github.com/capt-meelo/LazyRecon.git
 cd LazyRecon
