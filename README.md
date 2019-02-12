@@ -48,6 +48,10 @@ cd LazyRecon
 chmod +x LazyRecon.sh
 ./LazyRecon.sh <target_domain>
 ```
+:warning: **NOTE:** 
+1. It's recommended to run this tool in a VPS, such as [DigitalOcean](https://www.digitalocean.com/?refcode=f7f86614e1b3), for better speed.
+2. Running this tool takes time, thus it's suggested to run it under a **screen** or **tmux** session.
+
 
 ## Contribute
 
