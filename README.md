@@ -1,5 +1,5 @@
 # LazyRecon
-[![Version](https://img.shields.io/badge/Version-v1.0-green.svg)](https://github.com/capt-meelo/LazyRecon/releases)
+[![Version](https://img.shields.io/badge/Version-v1.1-green.svg)](https://github.com/capt-meelo/LazyRecon/releases)
 [![License](https://img.shields.io/badge/License-MIT-red.svg)](https://github.com/capt-meelo/LazyRecon/blob/master/LICENSE)
 
 LazyRecon is a wrapper of various scripts that automates the tedious process of reconnaissance of a target domain. 
@@ -12,9 +12,9 @@ LazyRecon utilizes the following tools:
   - [subjack](https://github.com/haccer/subjack)
 - IP Discovery:
   - [Massdns](https://github.com/blechschmidt/massdns)
-  - [IPOsint](https://github.com/j3ssie/IPOsint)
 - Port Scanner:
   - [Masscan](https://github.com/robertdavidgraham/masscan)
+  - [Nmap](https://nmap.org/)
   - [Nmap Bootstrap Stylesheet](https://github.com/honze-net/nmap-bootstrap-xsl/)
 - Visual Recon:
   - [Aquatone](https://github.com/michenriksen/aquatone)
