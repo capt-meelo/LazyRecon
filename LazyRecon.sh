@@ -1,5 +1,7 @@
 #!/bin/bash
 
+VERSION="1.1"
+
 TARGET=$1
 
 WORKING_DIR=$(pwd)
@@ -26,7 +28,7 @@ echo -e "
 ██║     ██╔══██║ ███╔╝    ╚██╔╝  ██╔══██╗██╔══╝  ██║     ██║   ██║██║╚██╗██║
 ███████╗██║  ██║███████╗   ██║   ██║  ██║███████╗╚██████╗╚██████╔╝██║ ╚████║
 ╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚══════╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═══  
-${RED}v1.0${RESET} by ${YELLOW}@CaptMeelo${RESET}
+${RED}v$VERSION${RESET} by ${YELLOW}@CaptMeelo${RESET}
 "
 }
 
@@ -64,19 +66,15 @@ enumSubs(){
     ~/go/bin/amass -d $TARGET -o $SUB_PATH/amass.txt
 
     runBanner "subfinder"
-    ~/go/bin/subfinder -d $TARGET -t 50 -nW --silent -o $SUB_PATH/subfinder.txt
-
-    runBanner "massdns"
-    $TOOLS_PATH/massdns/scripts/subbrute.py $WORDLIST_PATH/dns_all.txt $TARGET | $TOOLS_PATH/massdns/bin/massdns -r $TOOLS_PATH/massdns/lists/resolvers.txt -q -t A -o S -w $SUB_PATH/massdns.raw
+    ~/go/bin/subfinder -d $TARGET -t 50 -b -w $WORDLIST_PATH/dns_all.txt $TARGET -nW --silent -o $SUB_PATH/subfinder.txt
 
     echo -e "${RED}\n[+] Combining subdomains...${RESET}"
-    cat $SUB_PATH/massdns.raw | cut -d " " -f1 | rev | cut -d "." -f 2- | rev > $SUB_PATH/massdns.txt
     cat $SUB_PATH/*.txt | sort | awk '{print tolower($0)}' | uniq > $SUB_PATH/final-subdomains.txt
     echo -e "${BLUE}[*] Check the list of subdomains at $SUB_PATH/final-subdomains.txt${RESET}"
 
     echo -e "${GREEN}\n--==[ Checking for subdomain takeovers ]==--${RESET}"
     runBanner "subjack"
-    ~/go/bin/subjack -a -ssl -t 20 -v -c ~/go/src/github.com/haccer/subjack/fingerprints.json -w $SUB_PATH/final-subdomains.txt -o $SUB_PATH/final-takeover.tmp
+    ~/go/bin/subjack -a -ssl -t 50 -v -c ~/go/src/github.com/haccer/subjack/fingerprints.json -w $SUB_PATH/final-subdomains.txt -o $SUB_PATH/final-takeover.tmp
     cat $SUB_PATH/final-takeover.tmp | grep -v "Not Vulnerable" > $SUB_PATH/final-takeover.txt
     rm $SUB_PATH/final-takeover.tmp
     echo -e "${BLUE}[*] Check subjack's result at $SUB_PATH/final-takeover.txt${RESET}"
@@ -84,14 +82,9 @@ enumSubs(){
 
 
 enumIPs(){
-    echo -e "${GREEN}\n--==[ Resolving & enumerating IP addresses ]==--${RESET}"
+    echo -e "${GREEN}\n--==[ Resolving IP addresses ]==--${RESET}"
     runBanner "massdns"
-    $TOOLS_PATH/massdns/bin/massdns -r $TOOLS_PATH/massdns/lists/resolvers.txt -q -t A -o S -w $IP_PATH/massdns.raw $SUB_PATH/final-subdomains.txt
-
-    runBanner "IPOsint"
-    $TOOLS_PATH/IPOsint/ip-osint.py -t $TARGET -o $IP_PATH/iposint.txt
-
-    echo -e "${RED}\n[+] Combining IP addresses...${RESET}"
+    $TOOLS_PATH/massdns/bin/massdns -r $TOOLS_PATH/massdns/lists/resolvers.txt -t A -o S -w $IP_PATH/massdns.raw $SUB_PATH/final-subdomains.txt
     cat $IP_PATH/massdns.raw | grep -e ' A ' |  cut -d 'A' -f 2 | tr -d ' ' > $IP_PATH/massdns.txt
     cat $IP_PATH/*.txt | sort -V | uniq > $IP_PATH/final-ips.txt
     echo -e "${BLUE}[*] Check the list of IP addresses at $IP_PATH/final-ips.txt${RESET}"
@@ -101,10 +94,16 @@ enumIPs(){
 portScan(){
     echo -e "${GREEN}\n--==[ Port-scanning IP addresses ]==--${RESET}"
     # Based on exp, the sweet spot for the rate is 10k. More than 10k causes masscan to miss some open ports
-    runBanner "masscan"
-    sudo $TOOLS_PATH/masscan/bin/masscan -p1-65535 --rate 10000 --wait 0 --open -iL $IP_PATH/final-ips.txt -oX $PSCAN_PATH/masscan.xml
+    runBanner "masscan in the background"
+    sudo $TOOLS_PATH/masscan/bin/masscan -p 1-65535 --rate 10000 --wait 0 --open -iL $IP_PATH/final-ips.txt -oX $PSCAN_PATH/masscan.xml
     xsltproc -o $PSCAN_PATH/final-masscan.html $TOOLS_PATH/nmap-bootstrap.xsl $PSCAN_PATH/masscan.xml
-    echo -e "${BLUE}[*] Check masscan's HTML report at $PSCAN_PATH/final-masscan.html${RESET}"
+    open_ports=$(cat $PSCAN_PATH/masscan.xml | grep portid | cut -d "\"" -f 10 | sort -n | uniq | paste -sd,)
+    echo -e "${BLUE}[*] Masscan Done! View the HTML report at $PSCAN_PATH/final-masscan.html${RESET}"
+
+    runBanner "nmap in the background"
+    sudo nmap -sVC -p $open_ports --open -v -T4 -Pn -n -iL $IP_PATH/final-ips.txt -oX $PSCAN_PATH/nmap.xml
+    xsltproc -o $PSCAN_PATH/final-nmap.html $TOOLS_PATH/nmap-bootstrap.xsl $PSCAN_PATH/nmap.xml
+    echo -e "${BLUE}[*] Nmap Done! View the HTML report at $PSCAN_PATH/final-nmap.html${RESET}"
 }
 
 
@@ -156,7 +155,9 @@ checkArgs $TARGET
 setupDir
 enumSubs
 enumIPs
-portScan
+echo -e "${GREEN}\n--==[ Port-scanning IP addresses ]==--${RESET}"
+echo -e "${RED}[+] Running Running masscan & nmap in the background ]==--${RESET}"
+portScan > /dev/null 2>&1 &
 visualRecon
 bruteDir
 
