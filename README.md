@@ -8,7 +8,6 @@ LazyRecon utilizes the following tools:
 - Subdomain Enumeration:
   - [Amass](https://github.com/OWASP/Amass)
   - [Subfinder](https://github.com/subfinder/subfinder)
-  - [Massdns](https://github.com/blechschmidt/massdns)
   - [subjack](https://github.com/haccer/subjack)
 - IP Discovery:
   - [Massdns](https://github.com/blechschmidt/massdns)
