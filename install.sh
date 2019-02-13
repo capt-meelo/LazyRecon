@@ -37,56 +37,54 @@ setupTools(){
     installBanner "setup tools"
     sudo add-apt-repository ppa:canonical-chromium-builds/stage -y
     sudo apt update
-    sudo apt-get install -y golang git python python-pip python3 python3-pip libldns-dev gcc make libpcap-dev curl xsltproc chromium chromium-browser
+
+    INSTALL_PKGS="golang git python python-pip python3 python3-pip libldns-dev gcc make libpcap-dev xsltproc curl chromium-browser chromium"
+    for i in $INSTALL_PKGS; do
+        sudo apt-get install -y $i
+    done
 }
 
 
 subEnumTools(){
     echo -e "${GREEN}\n--==[ Installing subdomains enum tools ]==--${RESET}"
     installBanner "amass"
-    go get -u -v github.com/OWASP/Amass/...
-
+    if [ -e ~/go/bin/amass ]; then
+        echo -e "${BLUE}[!] Amass already exists...\n${RESET}"
+    else 
+        go get -u -v github.com/OWASP/Amass/...
+    fi
+    
     installBanner "subfinder"
-    go get -u -v github.com/subfinder/subfinder
-    echo -e "${RED}[+] Setting API keys for subfinder...${RESET}"
-    # Set your API keys here
-    ~/go/bin/subfinder --set-config VirustotalAPIKey=
-    ~/go/bin/subfinder --set-config PassivetotalUsername=,PassivetotalKey=
-    ~/go/bin/subfinder --set-config SecurityTrailsKey=
-    ~/go/bin/subfinder --set-config RiddlerEmail=,RiddlerPassword=
-    ~/go/bin/subfinder --set-config CensysUsername=,CensysSecret=
-    ~/go/bin/subfinder --set-config ShodanAPIKey=
-
-    installBanner "massdns"
-    cd $TOOLS_PATH
-    git clone https://github.com/blechschmidt/massdns
-    cd massdns
-    make -j
-    cd $WORKING_DIR
+    if [ -e ~/go/bin/subfinder ]; then
+        echo -e "${BLUE}[!] Subfinder already exists...\n${RESET}"
+    else 
+        go get -u -v github.com/subfinder/subfinder
+        echo -e "${RED}[+] Setting API keys for subfinder...${RESET}"
+        # Set your API keys here
+        ~/go/bin/subfinder --set-config VirustotalAPIKey=
+        ~/go/bin/subfinder --set-config PassivetotalUsername=,PassivetotalKey=
+        ~/go/bin/subfinder --set-config SecurityTrailsKey=
+        ~/go/bin/subfinder --set-config RiddlerEmail=,RiddlerPassword=
+        ~/go/bin/subfinder --set-config CensysUsername=,CensysSecret=
+        ~/go/bin/subfinder --set-config ShodanAPIKey=
+    fi
 
     installBanner "subjack"
-    go get -u -v github.com/haccer/subjack
+    if [ -e ~/go/bin/subjack ]; then
+        echo -e "${BLUE}[!] Subjack already exists...${RESET}"
+    else 
+        go get -u -v github.com/haccer/subjack
+    fi
 }
 
 
 ipEnumTools(){ 
     echo -e "${GREEN}\n--==[ Installing IP enum tools ]==--${RESET}"
-    installBanner "IPOsint"
+    installBanner "massdns"
     cd $TOOLS_PATH
-    wget -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-    echo 'deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main' | sudo tee /etc/apt/sources.list.d/google-chrome.list
-    sudo apt-get update -y
-    sudo apt-get install -y google-chrome-stable
-    # Clone IPOsint
-    git clone https://github.com/j3ssie/IPOsint.git
-    cd IPOsint
-    pip3 install -r requirements.txt
-    # Install latest chromedriver
-    LATEST_VERSION=$(curl -s https://chromedriver.storage.googleapis.com/LATEST_RELEASE)
-    cd modules
-    # Note that Google already stopped supporting x86
-    wget -O chromedriver.zip https://chromedriver.storage.googleapis.com/$LATEST_VERSION/chromedriver_linux64.zip
-    unzip -o chromedriver.zip
+    git clone https://github.com/blechschmidt/massdns
+    cd massdns
+    make -j
     cd $WORKING_DIR
 }
 
@@ -99,21 +97,40 @@ portScanTools(){
     cd masscan
     make -j
     cd $WORKING_DIR
+
+    installBanner "nmap"
+    LATEST_VERSION="7.70"
+    wget https://nmap.org/dist/nmap-$LATEST_VERSION.tar.bz2
+    bzip2 -cd nmap-$LATEST_VERSION.tar.bz2 | tar xvf -
+    cd nmap-$LATEST_VERSION
+    ./configure
+    make -j
+    sudo make install
+    cd $WORKING_DIR
+    rm -rf nmap-$LATEST_VERSION*
 }
 
 
 visualReconTools(){
     echo -e "${GREEN}\n--==[ Installing visual recon tools ]==--${RESET}"
     installBanner "aquatone"
-    go get -u -v github.com/michenriksen/aquatone
+    if [ -e ~/go/bin/aquatone ]; then
+        echo -e "${BLUE}[!] Aquatone already exists...\n${RESET}"
+    else 
+        go get -u -v github.com/michenriksen/aquatone
+    fi
 }
 
 
 dirBruteTools(){
     echo -e "${GREEN}\n--==[ Installing content discovery tools ]==--${RESET}"
     installBanner "gobuster"
-    go get -u -v github.com/OJ/gobuster
-
+    if [ -e ~/go/bin/gobuster ]; then
+        echo -e "${BLUE}[!] Gobuster already exists...\n${RESET}"
+    else 
+        go get -u -v github.com/OJ/gobuster
+    fi
+    
     installBanner "dirsearch"
     cd $TOOLS_PATH
     git clone https://github.com/maurosoria/dirsearch
