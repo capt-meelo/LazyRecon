@@ -1,10 +1,10 @@
 #!/bin/bash
 
-VERSION="1.1"
+VERSION="1.2"
 
 TARGET=$1
 
-WORKING_DIR=$(pwd)
+WORKING_DIR=$(dirname "$0")
 TOOLS_PATH="$WORKING_DIR/tools"
 WORDLIST_PATH="$WORKING_DIR/wordlists"
 RESULTS_PATH="$WORKING_DIR/results/$TARGET"
