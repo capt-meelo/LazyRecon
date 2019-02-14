@@ -1,6 +1,6 @@
 #!/bin/bash
 
-WORKING_DIR=$(pwd)
+WORKING_DIR=$(dirname "$0")
 TOOLS_PATH="$WORKING_DIR/tools"
 WORDLIST_PATH="$WORKING_DIR/wordlists"
 RED="\033[1;31m"
@@ -81,33 +81,45 @@ subEnumTools(){
 ipEnumTools(){ 
     echo -e "${GREEN}\n--==[ Installing IP enum tools ]==--${RESET}"
     installBanner "massdns"
-    cd $TOOLS_PATH
-    git clone https://github.com/blechschmidt/massdns
-    cd massdns
-    make -j
-    cd $WORKING_DIR
+    if [ -e $TOOLS_PATH/massdns/bin/massdns ]; then
+        echo -e "${BLUE}[!] Massdns already isntalled...\n${RESET}"
+    else
+        cd $TOOLS_PATH
+        git clone https://github.com/blechschmidt/massdns
+        cd massdns
+        make -j
+        cd $WORKING_DIR
+    fi
 }
 
 
 portScanTools(){
     echo -e "${GREEN}\n--==[ Installing port scanners ]==--${RESET}"
     installBanner "masscan"
-    cd $TOOLS_PATH
-    git clone https://github.com/robertdavidgraham/masscan
-    cd masscan
-    make -j
-    cd $WORKING_DIR
+    if [ -e $TOOLS_PATH/masscan/bin/masscan ]; then
+        echo -e "${BLUE}[!] Masscan already installed...\n${RESET}"
+    else
+        cd $TOOLS_PATH
+        git clone https://github.com/robertdavidgraham/masscan
+        cd masscan
+        make -j
+        cd $WORKING_DIR
+    fi
 
+    LATEST_NMAP="7.70"
     installBanner "nmap"
-    LATEST_VERSION="7.70"
-    wget https://nmap.org/dist/nmap-$LATEST_VERSION.tar.bz2
-    bzip2 -cd nmap-$LATEST_VERSION.tar.bz2 | tar xvf -
-    cd nmap-$LATEST_VERSION
-    ./configure
-    make -j
-    sudo make install
-    cd $WORKING_DIR
-    rm -rf nmap-$LATEST_VERSION*
+    if [ "$LATEST_NMAP" == "$(nmap -V | grep version | cut -d " " -f 3)" ]; then
+        echo -e "${BLUE}[!] Latest version of Nmap already installed...${RESET}"
+    else
+        wget https://nmap.org/dist/nmap-$LATEST_VERSION.tar.bz2
+        bzip2 -cd nmap-$LATEST_VERSION.tar.bz2 | tar xvf -
+        cd nmap-$LATEST_VERSION
+        ./configure
+        make -j
+        sudo make install
+        cd $WORKING_DIR
+        rm -rf nmap-$LATEST_VERSION*
+    fi
 }
 
 
@@ -132,9 +144,13 @@ dirBruteTools(){
     fi
     
     installBanner "dirsearch"
-    cd $TOOLS_PATH
-    git clone https://github.com/maurosoria/dirsearch
-    cd $WORKING_DIR
+    if [ "$(ls -A $TOOLS_PATH/dirsearch)" ]; then
+        echo -e "${BLUE}[!] Dirsearch already exists...\n${RESET}"
+    else
+        cd $TOOLS_PATH
+        git clone https://github.com/maurosoria/dirsearch
+        cd $WORKING_DIR
+    fi
 }
 
 
