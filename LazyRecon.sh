@@ -101,7 +101,7 @@ portScan(){
     echo -e "${BLUE}[*] Masscan Done! View the HTML report at $PSCAN_PATH/final-masscan.html${RESET}"
 
     runBanner "nmap in the background"
-    sudo nmap -sVC -p $open_ports --open -v -T4 -Pn -n -iL $IP_PATH/final-ips.txt -oX $PSCAN_PATH/nmap.xml
+    sudo nmap -sVC -p $open_ports --open -v -T4 -Pn -iL $SUB_PATH/final-subdomains.txt -oX $PSCAN_PATH/nmap.xml
     xsltproc -o $PSCAN_PATH/final-nmap.html $TOOLS_PATH/nmap-bootstrap.xsl $PSCAN_PATH/nmap.xml
     echo -e "${BLUE}[*] Nmap Done! View the HTML report at $PSCAN_PATH/final-nmap.html${RESET}"
 }
