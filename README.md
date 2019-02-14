@@ -1,5 +1,5 @@
 # LazyRecon
-[![Version](https://img.shields.io/badge/Version-v1.1-green.svg)](https://github.com/capt-meelo/LazyRecon/releases)
+[![Version](https://img.shields.io/badge/Version-v1.2-green.svg)](https://github.com/capt-meelo/LazyRecon/releases)
 [![License](https://img.shields.io/badge/License-MIT-red.svg)](https://github.com/capt-meelo/LazyRecon/blob/master/LICENSE)
 
 LazyRecon is a wrapper of various scripts that automates the tedious process of reconnaissance of a target domain. 
