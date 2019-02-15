@@ -155,9 +155,7 @@ checkArgs $TARGET
 setupDir
 enumSubs
 enumIPs
-echo -e "${GREEN}\n--==[ Port-scanning IP addresses ]==--${RESET}"
-echo -e "${RED}[+] Running Running masscan & nmap in the background ]==--${RESET}"
-portScan > /dev/null 2>&1 &
+portScan
 visualRecon
 bruteDir
 
