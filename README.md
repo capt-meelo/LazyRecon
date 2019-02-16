@@ -8,7 +8,8 @@ LazyRecon utilizes the following tools:
 - Subdomain Enumeration:
   - [Amass](https://github.com/OWASP/Amass)
   - [Subfinder](https://github.com/subfinder/subfinder)
-  - [subjack](https://github.com/haccer/subjack)
+- Subdomain Takeover:
+  - [subjack](https://github.com/haccer/subjack) 
 - IP Discovery:
   - [Massdns](https://github.com/blechschmidt/massdns)
 - Port Scanner:
@@ -34,6 +35,15 @@ Thanks to the developers of these tools!
 
 ## Installation
 :warning: **NOTE:** Before executing `install.sh`, modify the `subEnumTools()` function by placing your **Virustotal**, **Passivetotal**, **SecurityTrails**, **Censys**, **Riddler**, and **Shodan API keys**. This will give better results during the subdomain enumeration.
+```
+~/go/bin/subfinder --set-config VirustotalAPIKey=<INSERT-YOUR-API-KEY-HERE>
+~/go/bin/subfinder --set-config PassivetotalUsername=<INSERT-YOUR-API-KEY-HERE>,PassivetotalKey=<INSERT-YOUR-API-KEY-HERE>
+~/go/bin/subfinder --set-config SecurityTrailsKey=<INSERT-YOUR-API-KEY-HERE>
+~/go/bin/subfinder --set-config RiddlerEmail=<INSERT-YOUR-API-KEY-HERE>,RiddlerPassword=<INSERT-YOUR-API-KEY-HERE>
+~/go/bin/subfinder --set-config CensysUsername=<INSERT-YOUR-API-KEY-HERE>,CensysSecret=<INSERT-YOUR-API-KEY-HERE>
+~/go/bin/subfinder --set-config ShodanAPIKey=<INSERT-YOUR-API-KEY-HERE>
+```
+To install, just do the following:
 ```
 git clone https://github.com/capt-meelo/LazyRecon.git
 cd LazyRecon

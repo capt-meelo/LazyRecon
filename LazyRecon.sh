@@ -92,15 +92,15 @@ enumIPs(){
 
 
 portScan(){
-    echo -e "${GREEN}\n--==[ Port-scanning IP addresses ]==--${RESET}"
+    echo -e "${GREEN}\n--==[ Port-scanning targets ]==--${RESET}"
     # Based on exp, the sweet spot for the rate is 10k. More than 10k causes masscan to miss some open ports
-    runBanner "masscan in the background"
+    runBanner "masscan"
     sudo $TOOLS_PATH/masscan/bin/masscan -p 1-65535 --rate 10000 --wait 0 --open -iL $IP_PATH/final-ips.txt -oX $PSCAN_PATH/masscan.xml
     xsltproc -o $PSCAN_PATH/final-masscan.html $TOOLS_PATH/nmap-bootstrap.xsl $PSCAN_PATH/masscan.xml
     open_ports=$(cat $PSCAN_PATH/masscan.xml | grep portid | cut -d "\"" -f 10 | sort -n | uniq | paste -sd,)
     echo -e "${BLUE}[*] Masscan Done! View the HTML report at $PSCAN_PATH/final-masscan.html${RESET}"
 
-    runBanner "nmap in the background"
+    runBanner "nmap"
     sudo nmap -sVC -p $open_ports --open -v -T4 -Pn -iL $SUB_PATH/final-subdomains.txt -oX $PSCAN_PATH/nmap.xml
     xsltproc -o $PSCAN_PATH/final-nmap.html $PSCAN_PATH/nmap.xml
     echo -e "${BLUE}[*] Nmap Done! View the HTML report at $PSCAN_PATH/final-nmap.html${RESET}"

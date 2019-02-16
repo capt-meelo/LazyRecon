@@ -61,12 +61,12 @@ subEnumTools(){
         go get -u -v github.com/subfinder/subfinder
         echo -e "${RED}[+] Setting API keys for subfinder...${RESET}"
         # Set your API keys here
-        ~/go/bin/subfinder --set-config VirustotalAPIKey=
-        ~/go/bin/subfinder --set-config PassivetotalUsername=,PassivetotalKey=
-        ~/go/bin/subfinder --set-config SecurityTrailsKey=
-        ~/go/bin/subfinder --set-config RiddlerEmail=,RiddlerPassword=
-        ~/go/bin/subfinder --set-config CensysUsername=,CensysSecret=
-        ~/go/bin/subfinder --set-config ShodanAPIKey=
+        ~/go/bin/subfinder --set-config VirustotalAPIKey=<INSERT-YOUR-API-KEY-HERE>
+        ~/go/bin/subfinder --set-config PassivetotalUsername=<INSERT-YOUR-API-KEY-HERE>,PassivetotalKey=<INSERT-YOUR-API-KEY-HERE>
+        ~/go/bin/subfinder --set-config SecurityTrailsKey=<INSERT-YOUR-API-KEY-HERE>
+        ~/go/bin/subfinder --set-config RiddlerEmail=<INSERT-YOUR-API-KEY-HERE>,RiddlerPassword=<INSERT-YOUR-API-KEY-HERE>
+        ~/go/bin/subfinder --set-config CensysUsername=<INSERT-YOUR-API-KEY-HERE>,CensysSecret=<INSERT-YOUR-API-KEY-HERE>
+        ~/go/bin/subfinder --set-config ShodanAPIKey=<INSERT-YOUR-API-KEY-HERE>
     fi
 
     installBanner "subjack"
