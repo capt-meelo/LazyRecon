@@ -74,11 +74,9 @@ chmod +x LazyRecon.sh
 
 
 ## Tested On
-:white_check_mark: Ubuntu 18.10 (64-bit)
-
-:white_check_mark: Debian 9.8 (64-bit)
-
-:white_check_mark: Kali 2019.1 (64-bit)
+- Ubuntu 18.10 (64-bit)
+- Debian 9.8 (64-bit)
+- Kali 2019.1 (64-bit)
 
 
 ## Contribute
