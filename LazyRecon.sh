@@ -1,14 +1,15 @@
 #!/bin/bash
 
-VERSION="1.2"
+VERSION="1.3"
 
 TARGET=$1
 
-WORKING_DIR=$(dirname "$0")
+WORKING_DIR=$(cd -P -- "$(dirname -- "$0")" && pwd -P)
 TOOLS_PATH="$WORKING_DIR/tools"
 WORDLIST_PATH="$WORKING_DIR/wordlists"
 RESULTS_PATH="$WORKING_DIR/results/$TARGET"
 SUB_PATH="$RESULTS_PATH/subdomain"
+CORS_PATH="$RESULTS_PATH/cors"
 IP_PATH="$RESULTS_PATH/ip"
 PSCAN_PATH="$RESULTS_PATH/portscan"
 SSHOT_PATH="$RESULTS_PATH/screenshot"
@@ -51,8 +52,9 @@ setupDir(){
     echo -e "${GREEN}--==[ Setting things up ]==--${RESET}"
     echo -e "${RED}\n[+] Creating results directories...${RESET}"
     rm -rf $RESULTS_PATH
-    mkdir -p $SUB_PATH $IP_PATH $PSCAN_PATH $SSHOT_PATH $DIR_PATH
+    mkdir -p $SUB_PATH $CORS_PATH $IP_PATH $PSCAN_PATH $SSHOT_PATH $DIR_PATH
     echo -e "${BLUE}[*] $SUB_PATH${RESET}"
+    echo -e "${BLUE}[*] $CORS_PATH${RESET}"
     echo -e "${BLUE}[*] $IP_PATH${RESET}"
     echo -e "${BLUE}[*] $PSCAN_PATH${RESET}"
     echo -e "${BLUE}[*] $SSHOT_PATH${RESET}"
@@ -62,7 +64,7 @@ setupDir(){
 
 enumSubs(){
     echo -e "${GREEN}\n--==[ Enumerating subdomains ]==--${RESET}"
-    runBanner "amass"
+    runBanner "Amass"
     ~/go/bin/amass -d $TARGET -o $SUB_PATH/amass.txt
 
     runBanner "subfinder"
@@ -81,10 +83,18 @@ enumSubs(){
 }
 
 
+corsScan(){
+    echo -e "${GREEN}\n--==[ Checking CORS configuration ]==--${RESET}"
+    runBanner "CORScanner"
+    python $TOOLS_PATH/CORScanner/cors_scan.py -v -t 50 -i $SUB_PATH/final-subdomains.txt | tee $CORS_PATH/final-cors.txt
+    echo -e "${BLUE}[*] Check the result at $CORS_PATH/final-cors.txt${RESET}"
+}
+
+
 enumIPs(){
     echo -e "${GREEN}\n--==[ Resolving IP addresses ]==--${RESET}"
     runBanner "massdns"
-    $TOOLS_PATH/massdns/bin/massdns -r $TOOLS_PATH/massdns/lists/resolvers.txt -t A -o S -w $IP_PATH/massdns.raw $SUB_PATH/final-subdomains.txt
+    $TOOLS_PATH/massdns/bin/massdns -r $TOOLS_PATH/massdns/lists/resolvers.txt -q -t A -o S -w $IP_PATH/massdns.raw $SUB_PATH/final-subdomains.txt
     cat $IP_PATH/massdns.raw | grep -e ' A ' |  cut -d 'A' -f 2 | tr -d ' ' > $IP_PATH/massdns.txt
     cat $IP_PATH/*.txt | sort -V | uniq > $IP_PATH/final-ips.txt
     echo -e "${BLUE}[*] Check the list of IP addresses at $IP_PATH/final-ips.txt${RESET}"
@@ -93,9 +103,8 @@ enumIPs(){
 
 portScan(){
     echo -e "${GREEN}\n--==[ Port-scanning targets ]==--${RESET}"
-    # Based on exp, the sweet spot for the rate is 10k. More than 10k causes masscan to miss some open ports
     runBanner "masscan"
-    sudo $TOOLS_PATH/masscan/bin/masscan -p 1-65535 --rate 10000 --wait 0 --open -iL $IP_PATH/final-ips.txt -oX $PSCAN_PATH/masscan.xml
+    sudo $TOOLS_PATH/masscan/bin/masscan -p 1-65535 --rate 1000 --wait 0 --open -iL $IP_PATH/final-ips.txt -oX $PSCAN_PATH/masscan.xml
     xsltproc -o $PSCAN_PATH/final-masscan.html $TOOLS_PATH/nmap-bootstrap.xsl $PSCAN_PATH/masscan.xml
     open_ports=$(cat $PSCAN_PATH/masscan.xml | grep portid | cut -d "\"" -f 10 | sort -n | uniq | paste -sd,)
     echo -e "${BLUE}[*] Masscan Done! View the HTML report at $PSCAN_PATH/final-masscan.html${RESET}"
@@ -110,30 +119,15 @@ portScan(){
 visualRecon(){
     echo -e "${GREEN}\n--==[ Taking screenshots ]==--${RESET}"
     runBanner "aquatone"
-    cat $SUB_PATH/final-subdomains.txt | ~/go/bin/aquatone -http-timeout 10000 -scan-timeout 300 -threads 10 -ports xlarge -out $SSHOT_PATH/aquatone/
+    cat $SUB_PATH/final-subdomains.txt | ~/go/bin/aquatone -http-timeout 10000 -scan-timeout 300 -ports xlarge -out $SSHOT_PATH/aquatone/
     echo -e "${BLUE}[*] Check the result at $SSHOT_PATH/aquatone/aquatone_report.html${RESET}"
 }
 
 
 bruteDir(){
     echo -e "${GREEN}\n--==[ Bruteforcing directories ]==--${RESET}"
-    runBanner "gobuster"
-    echo -e "${BLUE}[*]Creting output directory...${RESET}"
-    mkdir -p $DIR_PATH/gobuster
-    for url in $(cat $SSHOT_PATH/aquatone/aquatone_urls.txt); do
-        fqdn=$(echo $url | sed -e 's;https\?://;;' | sed -e 's;/.*$;;')
-        ~/go/bin/gobuster -t 100 -k -e -f -r -w $WORDLIST_PATH/dir_all.txt -u $url -o $DIR_PATH/gobuster/$fqdn.tmp
-        if [ ! -s $DIR_PATH/gobuster/$fqdn.tmp ]; then
-            rm $DIR_PATH/gobuster/$fqdn.tmp
-        else
-            cat $DIR_PATH/gobuster/$fqdn.tmp | sort -k 3 -n > $DIR_PATH/gobuster/$fqdn.txt
-            rm $DIR_PATH/gobuster/$fqdn.tmp
-        fi
-    done
-    echo -e "${BLUE}[*] Check the results at $DIR_PATH/gobuster/${RESET}"
-
     runBanner "dirsearch"
-    echo -e "${BLUE}[*]Creting output directory...${RESET}"
+    echo -e "${BLUE}[*]Creating output directory...${RESET}"
     mkdir -p $DIR_PATH/dirsearch
     for url in $(cat $SSHOT_PATH/aquatone/aquatone_urls.txt); do
         fqdn=$(echo $url | sed -e 's;https\?://;;' | sed -e 's;/.*$;;')
@@ -154,6 +148,7 @@ displayLogo
 checkArgs $TARGET
 setupDir
 enumSubs
+corsScan
 enumIPs
 portScan
 visualRecon
