@@ -42,12 +42,12 @@ source get-go.sh
 
 Then, modify the `subEnumTools()` function of `install.sh` by placing your **Virustotal**, **Passivetotal**, **SecurityTrails**, **Censys**, **Riddler**, and **Shodan API keys**. This will give better results during the subdomain enumeration.
 ```
-~/go/bin/subfinder --set-config VirustotalAPIKey=<INSERT-YOUR-API-KEY-HERE>
-~/go/bin/subfinder --set-config PassivetotalUsername=<INSERT-YOUR-API-KEY-HERE>,PassivetotalKey=<INSERT-YOUR-API-KEY-HERE>
-~/go/bin/subfinder --set-config SecurityTrailsKey=<INSERT-YOUR-API-KEY-HERE>
-~/go/bin/subfinder --set-config RiddlerEmail=<INSERT-YOUR-API-KEY-HERE>,RiddlerPassword=<INSERT-YOUR-API-KEY-HERE>
-~/go/bin/subfinder --set-config CensysUsername=<INSERT-YOUR-API-KEY-HERE>,CensysSecret=<INSERT-YOUR-API-KEY-HERE>
-~/go/bin/subfinder --set-config ShodanAPIKey=<INSERT-YOUR-API-KEY-HERE>
+~/go/bin/subfinder --set-config VirustotalAPIKey=<API-KEY-HERE>
+~/go/bin/subfinder --set-config PassivetotalUsername=<API-KEY-HERE>,PassivetotalKey=<API-KEY-HERE>
+~/go/bin/subfinder --set-config SecurityTrailsKey=<API-KEY-HERE>
+~/go/bin/subfinder --set-config RiddlerEmail=<API-KEY-HERE>,RiddlerPassword=<API-KEY-HERE>
+~/go/bin/subfinder --set-config CensysUsername=<API-KEY-HERE>,CensysSecret=<API-KEY-HERE>
+~/go/bin/subfinder --set-config ShodanAPIKey=<API-KEY-HERE>
 ```
 Finally, run the following to install the required tools.
 ```
