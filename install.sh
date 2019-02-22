@@ -35,7 +35,7 @@ createDir(){
 
 setupTools(){
     installBanner "setup tools"
-    INSTALL_PKGS="git python python-pip python3 python3-pip libldns-dev gcc make libpcap-dev xsltproc curl"
+    INSTALL_PKGS="git python python-pip python3 python3-pip libldns-dev gcc g++ make libpcap-dev xsltproc curl"
     for i in $INSTALL_PKGS; do
         sudo apt-get install -y $i
     done
