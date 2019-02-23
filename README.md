@@ -67,8 +67,8 @@ chmod +x LazyRecon.sh
 ## Notes
 - It's suggested to run this tool in a VPS, such as [DigitalOcean](https://www.digitalocean.com/?refcode=f7f86614e1b3), for better speed & accuracy.
 - Running this tool takes time, thus it's recommended to run it under a **screen** or **tmux** session.
-- The tool runs **masscan** with the option `--rate 1000` for more accurate results. Based on experiments, **masscan** misses some open ports when scanning large port ranges. Depending on your environment, you could do the following to have a good balance between speed and accuracy:
-  - Increase the rate, and/or reduce the number of ports. For example, use the options `--top-ports 1000` & `--rate 10000`.
+- The tool runs **masscan** with the option `--rate 10000` for more accurate results. Based on experiments, **masscan** misses some open ports when scanning large port ranges. Depending on your environment, you could do the following to have a good balance between speed and accuracy:
+  - Increase the rate, and/or reduce the number of ports. For example, use the options `--top-ports 1000` & `--rate 100000`.
   - If you feel **masscan** and **nmap** are slow, you can run them in the background by changing the command `portScan` to `portScan > /dev/null 2>&1 &`.
 
 
