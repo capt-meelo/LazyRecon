@@ -73,6 +73,9 @@ enumSubs(){
     echo -e "${RED}\n[+] Combining subdomains...${RESET}"
     cat $SUB_PATH/*.txt | sort | awk '{print tolower($0)}' | uniq > $SUB_PATH/final-subdomains.txt
     echo -e "${BLUE}[*] Check the list of subdomains at $SUB_PATH/final-subdomains.txt${RESET}"
+    
+    runBanner "goaltdns"
+    ~/go/bin/goaltdns -l $SUB_PATH/final-subdomains.txt -w ~/go/src/github.com/subfinder/goaltdns/words.txt -o $SUB_PATH/goaltdns.txt
 
     echo -e "${GREEN}\n--==[ Checking for subdomain takeovers ]==--${RESET}"
     runBanner "subjack"
