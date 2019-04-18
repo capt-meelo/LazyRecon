@@ -166,7 +166,7 @@ dirBruteTools(){
 
 otherTools(){
     echo -e "${GREEN}\n--==[ Downloading wordlists & other tools]==--${RESET}"
-    if [ -e $WORDLIST_PATH/dns_all.txt 2>/dev/null ] && [ -e $WORDLIST_PATH/raft-large-words.txt 2>/dev/null ]; then
+    if [ -e $WORDLIST_PATH/dns_all.txt 2>/dev/null ] && [ -e $WORDLIST_PATH/raft-large-words.txt 2>/dev/null ] && [ -e $WORDLIST_PATH/comonspeak-subdomains.txt 2>/dev/null ]; then
         echo -e "${BLUE}[!] Wordlists already downloaded...\n${RESET}"
     else
         echo -e "${RED}[+] Downloading wordlists...${RESET}"
