@@ -76,9 +76,16 @@ subEnumTools(){
 
     installBanner "subjack"
     if [ -e ~/go/bin/subjack ]; then
-        echo -e "${BLUE}[!] Subjack already exists...${RESET}"
+        echo -e "${BLUE}[!] Subjack already exists...\n${RESET}"
     else 
         go get -u github.com/haccer/subjack
+    fi
+    
+    installBanner "goaltdns"
+    if [ -e ~/go/bin/goaltdns ]; then
+        echo -e "${BLUE}[!] Goaltns already exists...${RESET}"
+    else
+        go get github.com/subfinder/goaltdns
     fi
 }
 
