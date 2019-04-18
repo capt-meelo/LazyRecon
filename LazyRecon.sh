@@ -65,14 +65,11 @@ setupDir(){
 enumSubs(){
     echo -e "${GREEN}\n--==[ Enumerating subdomains ]==--${RESET}"
     runBanner "Amass"
-    ~/go/bin/amass -d $TARGET -o $SUB_PATH/amass.txt
+    ~/go/bin/amass -brute -w $WORDLIST_PATH/comonspeak-subdomains.txt -d $TARGET -o $SUB_PATH/amass.txt
 
     runBanner "subfinder"
     ~/go/bin/subfinder -d $TARGET -t 100 -b -w $WORDLIST_PATH/dns_all.txt -nW --silent -o $SUB_PATH/subfinder.txt
     
-    runBanner "subfinder with commonspeak wordlists"
-    ~/go/bin/subfinder -d $TARGET -t 100 -b -w $WORDLIST_PATH/comonspeak-subdomains.txt -nW --silent -o $SUB_PATH/subfindercommonspeak.txt
-
     echo -e "${RED}\n[+] Combining subdomains...${RESET}"
     cat $SUB_PATH/*.txt | sort | awk '{print tolower($0)}' | uniq > $SUB_PATH/final-subdomains.txt
     echo -e "${BLUE}[*] Check the list of subdomains at $SUB_PATH/final-subdomains.txt${RESET}"
