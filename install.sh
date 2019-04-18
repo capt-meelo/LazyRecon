@@ -172,6 +172,7 @@ otherTools(){
         echo -e "${RED}[+] Downloading wordlists...${RESET}"
         wget -O $WORDLIST_PATH/dns_all.txt https://gist.githubusercontent.com/jhaddix/86a06c5dc309d08580a018c66354a056/raw/96f4e51d96b2203f19f6381c8c545b278eaa0837/all.txt
         wget -O $WORDLIST_PATH/raft-large-words.txt https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/Web-Content/raft-large-words.txt
+        wget -O $WORDLIST_PATH/comonspeak-subdomains.txt https://raw.githubusercontent.com/assetnote/commonspeak2-wordlists/master/subdomains/subdomains.txt
     fi
 
     if [ -e $TOOLS_PATH/nmap-bootstrap.xsl 2>/dev/null ]; then
