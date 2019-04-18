@@ -83,9 +83,16 @@ subEnumTools(){
     
     installBanner "goaltdns"
     if [ -e ~/go/bin/goaltdns ]; then
-        echo -e "${BLUE}[!] Goaltns already exists...${RESET}"
+        echo -e "${BLUE}[!] Goaltns already exists...\n${RESET}"
     else
         go get github.com/subfinder/goaltdns
+    fi
+    
+    installBanner "online"
+    if [ -e $WORKING_DIR/tools/online.py ]; then
+        echo -e "${BLUE}[!] online.py already exists...${RESET}"
+    else
+        wget -O $WORKING_DIR/tools/online.py https://raw.githubusercontent.com/003random/003Recon/master/tools/online.py
     fi
 }
 
