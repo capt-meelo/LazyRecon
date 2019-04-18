@@ -71,11 +71,14 @@ enumSubs(){
     ~/go/bin/subfinder -d $TARGET -t 100 -b -w $WORDLIST_PATH/dns_all.txt -nW --silent -o $SUB_PATH/subfinder.txt
     
     echo -e "${RED}\n[+] Combining subdomains...${RESET}"
-    cat $SUB_PATH/*.txt | sort | awk '{print tolower($0)}' | uniq > $SUB_PATH/final-subdomains.txt
-    echo -e "${BLUE}[*] Check the list of subdomains at $SUB_PATH/final-subdomains.txt${RESET}"
+    cat $SUB_PATH/*.txt | sort | awk '{print tolower($0)}' | uniq > $SUB_PATH/combined-subdomains.txt
+    echo -e "${BLUE}[*] Check the list of subdomains at $SUB_PATH/combined-subdomains.txt${RESET}"
     
     runBanner "goaltdns"
-    ~/go/bin/goaltdns -l $SUB_PATH/final-subdomains.txt -w ~/go/src/github.com/subfinder/goaltdns/words.txt -o $SUB_PATH/goaltdns.txt
+    ~/go/bin/goaltdns -l $SUB_PATH/combined-subdomains.txt -w ~/go/src/github.com/subfinder/goaltdns/words.txt -o $SUB_PATH/goaltdns.txt
+    
+    runBanner "online"
+    python $WORKING_DIR/tools/online.py $SUB_PATH/goaltdns.txt $SUB_PATH/final-subdomains.txt
 
     echo -e "${GREEN}\n--==[ Checking for subdomain takeovers ]==--${RESET}"
     runBanner "subjack"
