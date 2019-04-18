@@ -10,6 +10,7 @@ LazyRecon utilizes the following tools:
 - Subdomain Enumeration:
   - [Amass](https://github.com/OWASP/Amass)
   - [Subfinder](https://github.com/subfinder/subfinder)
+  - [Goaltdns](https://github.com/subfinder/goaltdns)
 - Subdomain Takeover:
   - [subjack](https://github.com/haccer/subjack)
 - CORS Configuration:
@@ -27,6 +28,7 @@ LazyRecon utilizes the following tools:
 - Wordlists:
   - [JHaddix's all.txt](https://gist.github.com/jhaddix/f64c97d0863a78454e44c2f7119c2a6a)
   - [SecLists' raft-large-words.txt](https://github.com/danielmiessler/SecLists/blob/master/Discovery/Web-Content/raft-large-words.txt)
+  - [Commonspeak2 wordlists](https://raw.githubusercontent.com/assetnote/commonspeak2-wordlists/master/subdomains/subdomains.txt)
 
 
 ## Workflow
