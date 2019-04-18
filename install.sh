@@ -115,6 +115,10 @@ ipEnumTools(){
 
 portScanTools(){
     echo -e "${GREEN}\n--==[ Installing port scanners ]==--${RESET}"
+    
+    installBanner "nmap"
+    apt-get install nmap -y
+        
     installBanner "masscan"
     if [ -e $TOOLS_PATH/masscan/bin/masscan 2>/dev/null ]; then
         echo -e "${BLUE}[!] Masscan already installed...\n${RESET}"
@@ -126,32 +130,6 @@ portScanTools(){
         cd $WORKING_DIR
     fi
 
-    LATEST_NMAP="$(wget -qO- https://nmap.org/dist/ | grep -oP 'nmap-([0-9\.]+)\.tar\.bz2'| tail -n 1 | grep -oP 'nmap-[0-9\.]+' | grep -oP '[0-9\.]+' | head -c -2)"
-    if [ ! -x "$(command -v nmap)" ]; then
-        installBanner "nmap"
-        wget https://nmap.org/dist/nmap-$LATEST_NMAP.tar.bz2
-        bzip2 -cd nmap-$LATEST_NMAP.tar.bz2 | tar xvf -
-        cd nmap-$LATEST_NMAP
-        ./configure
-        make -j
-        sudo make -j install
-        cd $WORKING_DIR
-        rm -rf nmap-$LATEST_NMAP*
-    else 
-        if [ "$LATEST_NMAP" == "$(nmap -V | grep version | cut -d " " -f 3)" ]; then
-            echo -e "${BLUE}[!] Latest version of Nmap already installed...${RESET}"
-        else
-            echo -e "${BLUE}[!] Upgrading to the latest version of Nmap...${RESET}"
-            wget https://nmap.org/dist/nmap-$LATEST_NMAP.tar.bz2
-            bzip2 -cd nmap-$LATEST_NMAP.tar.bz2 | tar xvf -
-            cd nmap-$LATEST_NMAP
-            ./configure
-            make -j
-            sudo make -j install
-            cd $WORKING_DIR
-            rm -rf nmap-$LATEST_NMAP*
-        fi 
-    fi
 }
 
 
