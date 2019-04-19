@@ -68,8 +68,13 @@ enumSubs(){
     ~/go/bin/amass -d $TARGET -o $SUB_PATH/amass.txt
 
     runBanner "subfinder"
+<<<<<<< HEAD
     ~/go/bin/subfinder -d $TARGET -t 100 -nW --silent -o $SUB_PATH/subfinder.txt
     
+=======
+    ~/go/bin/subfinder -d $TARGET -t 50 -b -w $WORDLIST_PATH/dns_all.txt $TARGET -nW --silent -o $SUB_PATH/subfinder.txt
+
+>>>>>>> parent of 7f08916... Fix bug in LazyRecon.sh
     echo -e "${RED}\n[+] Combining subdomains...${RESET}"
     cat $SUB_PATH/*.txt | sort | awk '{print tolower($0)}' | uniq > $SUB_PATH/combined-subdomains.txt
     echo -e "${BLUE}[*] Check the list of subdomains at $SUB_PATH/combined-subdomains.txt${RESET}"
