@@ -53,11 +53,8 @@ setupTools(){
 subEnumTools(){
     echo -e "${GREEN}\n--==[ Installing subdomain enum tools ]==--${RESET}"
     installBanner "Amass"
-    if [ -e ~/go/bin/amass ]; then
-        echo -e "${BLUE}[!] Amass already exists...\n${RESET}"
-    else 
-        go get -u github.com/OWASP/Amass/...
-    fi
+    apt-get update
+    apt-get install amass
     
     installBanner "subfinder"
     if [ -e ~/go/bin/subfinder ]; then
