@@ -53,22 +53,15 @@ setupTools(){
 subEnumTools(){
     echo -e "${GREEN}\n--==[ Installing subdomain enum tools ]==--${RESET}"
     installBanner "Amass"
-    apt-get update
-    apt-get install amass
+    sudo apt-get update
+    sudo apt-get install amass
     
     installBanner "subfinder"
     if [ -e ~/go/bin/subfinder ]; then
         echo -e "${BLUE}[!] Subfinder already exists...\n${RESET}"
     else 
-        go get -u github.com/subfinder/subfinder
-        echo -e "${RED}[+] Setting up API keys for subfinder...${RESET}"
-        # Set your API keys here
-        ~/go/bin/subfinder --set-config VirustotalAPIKey=<API-KEY-HERE>
-        ~/go/bin/subfinder --set-config PassivetotalUsername=<API-KEY-HERE>,PassivetotalKey=<API-KEY-HERE>
-        ~/go/bin/subfinder --set-config SecurityTrailsKey=<API-KEY-HERE>
-        ~/go/bin/subfinder --set-config RiddlerEmail=<API-KEY-HERE>,RiddlerPassword=<API-KEY-HERE>
-        ~/go/bin/subfinder --set-config CensysUsername=<API-KEY-HERE>,CensysSecret=<API-KEY-HERE>
-        ~/go/bin/subfinder --set-config ShodanAPIKey=<API-KEY-HERE>
+        go get -v github.com/projectdiscovery/subfinder/cmd/subfinder
+        echo -e "${RED}[+] Setting up API keys for subfinder after first run in HOME/.config/subfinder/config.yaml check offical repo for more information.${RESET}"
     fi
 
     installBanner "subjack"
