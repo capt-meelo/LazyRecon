@@ -68,7 +68,7 @@ enumSubs(){
     ~/go/bin/amass enum -d $TARGET -o $SUB_PATH/amass.txt
 
     runBanner "subfinder"
-    ~/go/bin/subfinder -d $TARGET -t 50 -b -w $WORDLIST_PATH/dns_all.txt $TARGET -nW --silent -o $SUB_PATH/subfinder.txt
+    ~/go/bin/subfinder -d $TARGET -t 50 $TARGET -nW --silent -o $SUB_PATH/subfinder.txt
 
     echo -e "${RED}\n[+] Combining subdomains...${RESET}"
     cat $SUB_PATH/*.txt | sort | awk '{print tolower($0)}' | uniq > $SUB_PATH/final-subdomains.txt
