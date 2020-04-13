@@ -65,7 +65,7 @@ setupDir(){
 enumSubs(){
     echo -e "${GREEN}\n--==[ Enumerating subdomains ]==--${RESET}"
     runBanner "Amass"
-    ~/go/bin/amass -d $TARGET -o $SUB_PATH/amass.txt
+    ~/go/bin/amass enum -d $TARGET -o $SUB_PATH/amass.txt
 
     runBanner "subfinder"
     ~/go/bin/subfinder -d $TARGET -t 50 -b -w $WORDLIST_PATH/dns_all.txt $TARGET -nW --silent -o $SUB_PATH/subfinder.txt
